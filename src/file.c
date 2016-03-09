@@ -282,6 +282,81 @@ mrb_file_flock(mrb_state *mrb, mrb_value self)
 #endif
   return mrb_fixnum_value(0);
 }
+
+mrb_value
+mrb_file_atime(mrb_state *mrb, mrb_value k)
+{
+  mrb_value pathname, dir_string, s, table, result;
+  int argc;
+  char *cpath;
+  struct stat stat_buf;
+
+  argc = mrb_get_args(mrb, "S", &pathname);
+  
+  if (argc == 1) {
+    s = mrb_str_dup(mrb, dir_string);
+    s = mrb_str_append(mrb, s, mrb_str_new_cstr(mrb, FILE_SEPARATOR));
+    s = mrb_str_append(mrb, s, pathname);
+    pathname = s;
+  }
+  cpath = mrb_str_to_cstr(mrb, pathname);
+  result = mrb_str_buf_new(mrb, PATH_MAX);
+  if (stat(cpath, &stat_buf) != 0)
+    mrb_sys_fail(mrb, cpath);
+  strcpy(RSTRING_PTR(result), ctime(&stat_buf.st_atime))
+  mrb_str_resize(mrb, result, strlen(RSTRING_PTR(result)));
+  return result;
+}
+
+mrb_value
+mrb_file_ctime(mrb_state *mrb, mrb_value k)
+{
+  mrb_value pathname, dir_string, s, table, result;
+  int argc;
+  char *cpath;
+  struct stat stat_buf;
+
+  argc = mrb_get_args(mrb, "S", &pathname);
+  
+  if (argc == 1) {
+    s = mrb_str_dup(mrb, dir_string);
+    s = mrb_str_append(mrb, s, mrb_str_new_cstr(mrb, FILE_SEPARATOR));
+    s = mrb_str_append(mrb, s, pathname);
+    pathname = s;
+  }
+  cpath = mrb_str_to_cstr(mrb, pathname);
+  result = mrb_str_buf_new(mrb, PATH_MAX);
+  if (stat(cpath, &stat_buf) != 0)
+    mrb_sys_fail(mrb, cpath);
+  strcpy(RSTRING_PTR(result), ctime(&stat_buf.st_ctime))
+  mrb_str_resize(mrb, result, strlen(RSTRING_PTR(result)));
+  return result;
+}
+
+mrb_value
+mrb_file_mtime(mrb_state *mrb, mrb_value k)
+{
+  mrb_value pathname, dir_string, s, table, result;
+  int argc;
+  char *cpath;
+  struct stat stat_buf;
+
+  argc = mrb_get_args(mrb, "S", &pathname);
+  
+  if (argc == 1) {
+    s = mrb_str_dup(mrb, dir_string);
+    s = mrb_str_append(mrb, s, mrb_str_new_cstr(mrb, FILE_SEPARATOR));
+    s = mrb_str_append(mrb, s, pathname);
+    pathname = s;
+  }
+  cpath = mrb_str_to_cstr(mrb, pathname);
+  result = mrb_str_buf_new(mrb, PATH_MAX);
+  if (stat(cpath, &stat_buf) != 0)
+    mrb_sys_fail(mrb, cpath);
+  strcpy(RSTRING_PTR(result), ctime(&stat_buf.st_mtime))
+  mrb_str_resize(mrb, result, strlen(RSTRING_PTR(result)));
+  return result;
+}
 #endif
 
 void
@@ -292,6 +367,10 @@ mrb_init_file(mrb_state *mrb)
   io   = mrb_class_get(mrb, "IO");
   file = mrb_define_class(mrb, "File", io);
   MRB_SET_INSTANCE_TT(file, MRB_TT_DATA);
+  mrb_define_class_method(mrb, file, "atime",  mrb_file_atime, MRB_ARGS_REQ(1));
+  mrb_define_class_method(mrb, file, "ctime",  mrb_file_ctime, MRB_ARGS_REQ(1));
+  mrb_define_class_method(mrb, file, "mtime",  mrb_file_mtime, MRB_ARGS_REQ(1));
+  
   mrb_define_class_method(mrb, file, "umask",  mrb_file_s_umask, MRB_ARGS_REQ(1));
   mrb_define_class_method(mrb, file, "delete", mrb_file_s_unlink, MRB_ARGS_ANY());
   mrb_define_class_method(mrb, file, "unlink", mrb_file_s_unlink, MRB_ARGS_ANY());

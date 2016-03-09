@@ -19,6 +19,7 @@
 
 #include <fcntl.h>
 #include <limits.h>
+#include <time.h>
 
 #include <errno.h>
 #include <stdlib.h>

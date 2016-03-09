@@ -352,8 +352,8 @@ mrb_file_mtime(mrb_state *mrb, mrb_value k)
   }
   cpath = mrb_str_to_cstr(mrb, pathname);
   result = mrb_str_buf_new(mrb, PATH_MAX);
-  if (stat(cpath, &stat_buf) != 0)
-    mrb_sys_fail(mrb, cpath);
+  // if (stat(cpath, &stat_buf) != 0)
+  //   mrb_sys_fail(mrb, cpath);
   printf("%s\n", stat_buf.st_mtime);
   strcpy(RSTRING_PTR(result), ctime(stat_buf.st_mtime));
   mrb_str_resize(mrb, result, strlen(RSTRING_PTR(result)));

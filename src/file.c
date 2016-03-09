@@ -304,7 +304,7 @@ mrb_file_atime(mrb_state *mrb, mrb_value k)
   result = mrb_str_buf_new(mrb, PATH_MAX);
   if (stat(cpath, &stat_buf) != 0)
     mrb_sys_fail(mrb, cpath);
-  strcpy(RSTRING_PTR(result), ctime(&stat_buf.st_atime));
+  strcpy(RSTRING_PTR(result), ctime(stat_buf.st_atime));
   mrb_str_resize(mrb, result, strlen(RSTRING_PTR(result)));
   return result;
 }
@@ -329,7 +329,7 @@ mrb_file_ctime(mrb_state *mrb, mrb_value k)
   result = mrb_str_buf_new(mrb, PATH_MAX);
   if (stat(cpath, &stat_buf) != 0)
     mrb_sys_fail(mrb, cpath);
-  strcpy(RSTRING_PTR(result), ctime(&stat_buf.st_ctime));
+  strcpy(RSTRING_PTR(result), ctime(stat_buf.st_ctime));
   mrb_str_resize(mrb, result, strlen(RSTRING_PTR(result)));
   return result;
 }
@@ -354,7 +354,7 @@ mrb_file_mtime(mrb_state *mrb, mrb_value k)
   result = mrb_str_buf_new(mrb, PATH_MAX);
   if (stat(cpath, &stat_buf) != 0)
     mrb_sys_fail(mrb, cpath);
-  strcpy(RSTRING_PTR(result), ctime(&stat_buf.st_mtime));
+  strcpy(RSTRING_PTR(result), ctime(stat_buf.st_mtime));
   mrb_str_resize(mrb, result, strlen(RSTRING_PTR(result)));
   return result;
 }

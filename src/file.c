@@ -298,10 +298,7 @@ mrb_file_atime(mrb_state *mrb, mrb_value klass)
   if (stat(cpath, &stat_buf) != 0)
     mrb_sys_fail(mrb, cpath);
   
-  if (((long)&stat_buf.st_atime) > MRB_INT_MAX || ((long)&stat_buf.st_atime) < MRB_INT_MIN) {
-    return mrb_float_value(mrb, (mrb_float)((long)&stat_buf.st_atime));
-  }
-  return mrb_fixnum_value((mrb_int)((long)&stat_buf.st_atime));
+  return mrb_float_value(mrb, (mrb_float)stat_buf.st_atime);
 }
 
 mrb_value
@@ -318,10 +315,7 @@ mrb_file_ctime(mrb_state *mrb, mrb_value klass)
   if (stat(cpath, &stat_buf) != 0)
     mrb_sys_fail(mrb, cpath);
   
-  if (((long)&stat_buf.st_ctime) > MRB_INT_MAX || ((long)&stat_buf.st_ctime) < MRB_INT_MIN) {
-    return mrb_float_value(mrb, (mrb_float)((long)&stat_buf.st_ctime));
-  }
-  return mrb_fixnum_value((mrb_int)((long)&stat_buf.st_ctime));
+  return mrb_float_value(mrb, (mrb_float)stat_buf.st_ctime);
 }
 
 mrb_value
@@ -338,10 +332,7 @@ mrb_file_mtime(mrb_state *mrb, mrb_value klass)
   if (stat(cpath, &stat_buf) != 0)
     mrb_sys_fail(mrb, cpath);
   
-  if (((long)&stat_buf.st_mtime) > MRB_INT_MAX || ((long)&stat_buf.st_mtime) < MRB_INT_MIN) {
-    return mrb_float_value(mrb, (mrb_float)((long)&stat_buf.st_mtime));
-  }
-  return mrb_fixnum_value((mrb_int)((long)&stat_buf.st_mtime));
+  return mrb_float_value(mrb, (mrb_float)stat_buf.st_mtime);
 }
 #endif
 

@@ -299,14 +299,16 @@ mrb_file_atime(mrb_state *mrb, mrb_value klass)
   if (stat(cpath, &stat_buf) != 0)
     mrb_sys_fail(mrb, cpath);
   
-  result = mrb_fixnum_value((mrb_int)&stat_buf.st_atime);
-  return result;
+  if (tm->sec > MRB_INT_MAX || tm->sec < MRB_INT_MIN) {
+    return mrb_float_value(mrb, (mrb_float)&stat_buf.st_atime);
+  }
+  return mrb_fixnum_value((mrb_int)&stat_buf.st_atime);
 }
 
 mrb_value
 mrb_file_ctime(mrb_state *mrb, mrb_value klass)
 {
-  mrb_value pathname, result;
+  mrb_value pathname;
   int argc;
   char *cpath;
   struct stat stat_buf;
@@ -318,14 +320,16 @@ mrb_file_ctime(mrb_state *mrb, mrb_value klass)
   if (stat(cpath, &stat_buf) != 0)
     mrb_sys_fail(mrb, cpath);
   
-  result = mrb_fixnum_value((mrb_int)&stat_buf.st_ctime);
-  return result;
+  if (tm->sec > MRB_INT_MAX || tm->sec < MRB_INT_MIN) {
+    return mrb_float_value(mrb, (mrb_float)&stat_buf.st_ctime);
+  }
+  return mrb_fixnum_value((mrb_int)&stat_buf.st_ctime);
 }
 
 mrb_value
 mrb_file_mtime(mrb_state *mrb, mrb_value klass)
 {
-  mrb_value pathname, result;
+  mrb_value pathname;
   int argc;
   char *cpath;
   struct stat stat_buf;
@@ -337,8 +341,10 @@ mrb_file_mtime(mrb_state *mrb, mrb_value klass)
   if (stat(cpath, &stat_buf) != 0)
     mrb_sys_fail(mrb, cpath);
   
-  result = mrb_fixnum_value((mrb_int)&stat_buf.st_mtime);
-  return result;
+  if (tm->sec > MRB_INT_MAX || tm->sec < MRB_INT_MIN) {
+    return mrb_float_value(mrb, (mrb_float)&stat_buf.st_mtime);
+  }
+  return mrb_fixnum_value((mrb_int)&stat_buf.st_mtime);
 }
 #endif
 

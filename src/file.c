@@ -287,7 +287,7 @@ mrb_file_flock(mrb_state *mrb, mrb_value self)
 mrb_value
 mrb_file_atime(mrb_state *mrb, mrb_value klass)
 {
-  mrb_value pathname, result;
+  mrb_value pathname;
   int argc;
   char *cpath;
   struct stat stat_buf;
@@ -299,8 +299,8 @@ mrb_file_atime(mrb_state *mrb, mrb_value klass)
   if (stat(cpath, &stat_buf) != 0)
     mrb_sys_fail(mrb, cpath);
   
-  if (tm->sec > MRB_INT_MAX || tm->sec < MRB_INT_MIN) {
-    return mrb_float_value(mrb, (mrb_float)&stat_buf.st_atime);
+  if (((int)&stat_buf.st_atime) > MRB_INT_MAX || ((int)&stat_buf.st_atime) < MRB_INT_MIN) {
+    return mrb_float_value(mrb, (mrb_float)((int)&stat_buf.st_atime));
   }
   return mrb_fixnum_value((mrb_int)&stat_buf.st_atime);
 }
@@ -320,8 +320,8 @@ mrb_file_ctime(mrb_state *mrb, mrb_value klass)
   if (stat(cpath, &stat_buf) != 0)
     mrb_sys_fail(mrb, cpath);
   
-  if (tm->sec > MRB_INT_MAX || tm->sec < MRB_INT_MIN) {
-    return mrb_float_value(mrb, (mrb_float)&stat_buf.st_ctime);
+  if (((int)&stat_buf.st_ctime) > MRB_INT_MAX || ((int)&stat_buf.st_ctime) < MRB_INT_MIN) {
+    return mrb_float_value(mrb, (mrb_float)((int)&stat_buf.st_ctime));
   }
   return mrb_fixnum_value((mrb_int)&stat_buf.st_ctime);
 }
@@ -341,8 +341,8 @@ mrb_file_mtime(mrb_state *mrb, mrb_value klass)
   if (stat(cpath, &stat_buf) != 0)
     mrb_sys_fail(mrb, cpath);
   
-  if (tm->sec > MRB_INT_MAX || tm->sec < MRB_INT_MIN) {
-    return mrb_float_value(mrb, (mrb_float)&stat_buf.st_mtime);
+  if (((int)&stat_buf.st_mtime) > MRB_INT_MAX || ((int)&stat_buf.st_mtime) < MRB_INT_MIN) {
+    return mrb_float_value(mrb, (mrb_float)((int)&stat_buf.st_mtime));
   }
   return mrb_fixnum_value((mrb_int)&stat_buf.st_mtime);
 }

@@ -170,13 +170,4 @@ class File < IO
     ext = fname.split('.').last
     ext.empty? ? '' : ".#{ext}"
   end
-  
-  def self.mtime(filename)
-  end
-  
-  def self.atime(filename)
-  end
-  
-  def self.ctime(filename)
-  end
 end

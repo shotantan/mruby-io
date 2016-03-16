@@ -285,80 +285,59 @@ mrb_file_flock(mrb_state *mrb, mrb_value self)
 }
 
 mrb_value
-mrb_file_atime(mrb_state *mrb, mrb_value k)
+mrb_file_atime(mrb_state *mrb, mrb_value klass)
 {
-  mrb_value pathname, dir_string, s, table, result;
+  mrb_value pathname, result;
   int argc;
   char *cpath;
   struct stat stat_buf;
 
   argc = mrb_get_args(mrb, "S", &pathname);
   
-  if (argc == 1) {
-    s = mrb_str_dup(mrb, dir_string);
-    s = mrb_str_append(mrb, s, mrb_str_new_cstr(mrb, FILE_SEPARATOR));
-    s = mrb_str_append(mrb, s, pathname);
-    pathname = s;
-  }
   cpath = mrb_str_to_cstr(mrb, pathname);
-  result = mrb_str_buf_new(mrb, PATH_MAX);
-  // if (stat(cpath, &stat_buf) != 0)
-  //   mrb_sys_fail(mrb, cpath);
-  printf("%s\n", stat_buf.st_atime);
-  strcpy(RSTRING_PTR(result), ctime(stat_buf.st_atime));
-  mrb_str_resize(mrb, result, strlen(RSTRING_PTR(result)));
+  
+  if (stat(cpath, &stat_buf) != 0)
+    mrb_sys_fail(mrb, cpath);
+  
+  result = mrb_fixnum_value((mrb_int)&stat_buf.st_atime);
   return result;
 }
 
 mrb_value
-mrb_file_ctime(mrb_state *mrb, mrb_value k)
+mrb_file_ctime(mrb_state *mrb, mrb_value klass)
 {
-  mrb_value pathname, dir_string, s, table, result;
+  mrb_value pathname, result;
   int argc;
   char *cpath;
   struct stat stat_buf;
 
   argc = mrb_get_args(mrb, "S", &pathname);
   
-  if (argc == 1) {
-    s = mrb_str_dup(mrb, dir_string);
-    s = mrb_str_append(mrb, s, mrb_str_new_cstr(mrb, FILE_SEPARATOR));
-    s = mrb_str_append(mrb, s, pathname);
-    pathname = s;
-  }
   cpath = mrb_str_to_cstr(mrb, pathname);
-  result = mrb_str_buf_new(mrb, PATH_MAX);
-  // if (stat(cpath, &stat_buf) != 0)
-  //   mrb_sys_fail(mrb, cpath);
-  printf("%s\n", stat_buf.st_ctime);
-  strcpy(RSTRING_PTR(result), ctime(stat_buf.st_ctime));
-  mrb_str_resize(mrb, result, strlen(RSTRING_PTR(result)));
+  
+  if (stat(cpath, &stat_buf) != 0)
+    mrb_sys_fail(mrb, cpath);
+  
+  result = mrb_fixnum_value((mrb_int)&stat_buf.st_ctime);
   return result;
 }
 
 mrb_value
-mrb_file_mtime(mrb_state *mrb, mrb_value k)
+mrb_file_mtime(mrb_state *mrb, mrb_value klass)
 {
-  mrb_value pathname, dir_string, s, table, result;
+  mrb_value pathname, result;
   int argc;
   char *cpath;
   struct stat stat_buf;
 
   argc = mrb_get_args(mrb, "S", &pathname);
   
-  if (argc == 1) {
-    s = mrb_str_dup(mrb, dir_string);
-    s = mrb_str_append(mrb, s, mrb_str_new_cstr(mrb, FILE_SEPARATOR));
-    s = mrb_str_append(mrb, s, pathname);
-    pathname = s;
-  }
   cpath = mrb_str_to_cstr(mrb, pathname);
-  result = mrb_str_buf_new(mrb, PATH_MAX);
-  // if (stat(cpath, &stat_buf) != 0)
-  //   mrb_sys_fail(mrb, cpath);
-  printf("%s\n", stat_buf.st_mtime);
-  strcpy(RSTRING_PTR(result), ctime(stat_buf.st_mtime));
-  mrb_str_resize(mrb, result, strlen(RSTRING_PTR(result)));
+  
+  if (stat(cpath, &stat_buf) != 0)
+    mrb_sys_fail(mrb, cpath);
+  
+  result = mrb_fixnum_value((mrb_int)&stat_buf.st_mtime);
   return result;
 }
 #endif

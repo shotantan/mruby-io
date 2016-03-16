@@ -288,63 +288,60 @@ mrb_value
 mrb_file_atime(mrb_state *mrb, mrb_value klass)
 {
   mrb_value pathname;
-  int argc;
   char *cpath;
   struct stat stat_buf;
 
-  argc = mrb_get_args(mrb, "S", &pathname);
+  mrb_get_args(mrb, "S", &pathname);
   
   cpath = mrb_str_to_cstr(mrb, pathname);
   
   if (stat(cpath, &stat_buf) != 0)
     mrb_sys_fail(mrb, cpath);
   
-  if (((int)&stat_buf.st_atime) > MRB_INT_MAX || ((int)&stat_buf.st_atime) < MRB_INT_MIN) {
-    return mrb_float_value(mrb, (mrb_float)((int)&stat_buf.st_atime));
+  if (((long)&stat_buf.st_atime) > MRB_INT_MAX || ((long)&stat_buf.st_atime) < MRB_INT_MIN) {
+    return mrb_float_value(mrb, (mrb_float)((long)&stat_buf.st_atime));
   }
-  return mrb_fixnum_value((mrb_int)&stat_buf.st_atime);
+  return mrb_fixnum_value((mrb_int)((long)&stat_buf.st_atime));
 }
 
 mrb_value
 mrb_file_ctime(mrb_state *mrb, mrb_value klass)
 {
   mrb_value pathname;
-  int argc;
   char *cpath;
   struct stat stat_buf;
 
-  argc = mrb_get_args(mrb, "S", &pathname);
+  mrb_get_args(mrb, "S", &pathname);
   
   cpath = mrb_str_to_cstr(mrb, pathname);
   
   if (stat(cpath, &stat_buf) != 0)
     mrb_sys_fail(mrb, cpath);
   
-  if (((int)&stat_buf.st_ctime) > MRB_INT_MAX || ((int)&stat_buf.st_ctime) < MRB_INT_MIN) {
-    return mrb_float_value(mrb, (mrb_float)((int)&stat_buf.st_ctime));
+  if (((long)&stat_buf.st_ctime) > MRB_INT_MAX || ((long)&stat_buf.st_ctime) < MRB_INT_MIN) {
+    return mrb_float_value(mrb, (mrb_float)((long)&stat_buf.st_ctime));
   }
-  return mrb_fixnum_value((mrb_int)&stat_buf.st_ctime);
+  return mrb_fixnum_value((mrb_int)((long)&stat_buf.st_ctime));
 }
 
 mrb_value
 mrb_file_mtime(mrb_state *mrb, mrb_value klass)
 {
   mrb_value pathname;
-  int argc;
   char *cpath;
   struct stat stat_buf;
 
-  argc = mrb_get_args(mrb, "S", &pathname);
+  mrb_get_args(mrb, "S", &pathname);
   
   cpath = mrb_str_to_cstr(mrb, pathname);
   
   if (stat(cpath, &stat_buf) != 0)
     mrb_sys_fail(mrb, cpath);
   
-  if (((int)&stat_buf.st_mtime) > MRB_INT_MAX || ((int)&stat_buf.st_mtime) < MRB_INT_MIN) {
-    return mrb_float_value(mrb, (mrb_float)((int)&stat_buf.st_mtime));
+  if (((long)&stat_buf.st_mtime) > MRB_INT_MAX || ((long)&stat_buf.st_mtime) < MRB_INT_MIN) {
+    return mrb_float_value(mrb, (mrb_float)((long)&stat_buf.st_mtime));
   }
-  return mrb_fixnum_value((mrb_int)&stat_buf.st_mtime);
+  return mrb_fixnum_value((mrb_int)((long)&stat_buf.st_mtime));
 }
 #endif
 
